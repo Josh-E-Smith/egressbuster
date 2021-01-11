@@ -16,6 +16,7 @@ import threading
 import time
 import socket
 import struct
+import datetime
 
 SO_ORIGINAL_DST = 80
 
@@ -68,7 +69,7 @@ class ThreadedTCPRequestHandler(SocketServer.BaseRequestHandler):
             self.request.getsockopt(socket.SOL_IP, SO_ORIGINAL_DST, 16)[:8]
         )[1]  # (proto, port, IPa, IPb, IPc, IPd)
         self.data = self.request.recv(1024).strip()
-        print("[*] Connected from %s on port: %d/tcp (client reported %s)" % (self.client_address[0], port, self.data))
+        print("[*] %d - Connected from %s on port: %d/tcp (client reported %s)" % (datetime.datetime.now(),self.client_address[0], port, self.data))
         if shell == "shell" and not shell_connected:
             shell_connected = True
             results_terminator = self.request.recv(1024).decode().rstrip()
